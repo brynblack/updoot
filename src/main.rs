@@ -18,6 +18,7 @@ async fn age(
 ) -> Result<(), Error> {
     let u = user.as_ref().unwrap_or_else(|| ctx.author());
     let response = format!("{}'s account was created at {}", u.name, u.created_at());
+    ctx.defer_ephemeral().await?;
     ctx.say(response).await?;
     Ok(())
 }
@@ -25,6 +26,7 @@ async fn age(
 #[tokio::main]
 async fn main() {
     env_logger::init();
+    dotenv::dotenv().ok();
 
     let framework = poise::Framework::builder()
         .options(poise::FrameworkOptions {
